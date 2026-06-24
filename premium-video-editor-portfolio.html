@@ -1,0 +1,1476 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maya Chen — Cinematic Editor for Brands That Matter</title>
+  <meta name="description" content="Portfolio of Maya Chen, award-winning cinematic video editor. Commercials, music videos, film — working with brands that demand precision." />
+  <meta name="theme-color" content="#0a0a0d" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── tokens ────────────────────────────────────────────────────── */
+    :root {
+      --bg:      oklch(8% 0.006 260);
+      --surface: oklch(13% 0.008 260);
+      --fg:      oklch(88% 0.005 260);
+      --muted:   oklch(50% 0.01 260);
+      --border:  oklch(20% 0.01 260);
+      --accent:  oklch(68% 0.13 72);
+
+      --accent-soft: color-mix(in oklch, var(--accent) 12%, transparent);
+      --fg-soft:     color-mix(in oklch, var(--fg) 6%, transparent);
+
+      --font-display: 'Playfair Display', 'Iowan Old Style', Georgia, serif;
+      --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+      --fs-h1: clamp(52px, 8vw, 112px);
+      --fs-h2: clamp(36px, 5vw, 56px);
+      --fs-h3: clamp(20px, 2vw, 26px);
+      --fs-lead: clamp(17px, 1.5vw, 21px);
+      --fs-body: 16px;
+      --fs-meta: 13px;
+
+      --gap-xs: 8px;
+      --gap-sm: 12px;
+      --gap-md: 20px;
+      --gap-lg: 32px;
+      --gap-xl: 56px;
+      --gap-2xl: 104px;
+      --container: 1200px;
+      --gutter: clamp(20px, 4vw, 48px);
+
+      --radius: 6px;
+      --radius-lg: 12px;
+    }
+
+    [data-theme="light"] {
+      --bg:      oklch(97% 0.005 260);
+      --surface: oklch(100% 0 0);
+      --fg:      oklch(14% 0.008 260);
+      --muted:   oklch(48% 0.01 260);
+      --border:  oklch(88% 0.005 260);
+      --accent:  oklch(55% 0.13 72);
+      --accent-soft: color-mix(in oklch, var(--accent) 12%, transparent);
+      --fg-soft:     color-mix(in oklch, var(--fg) 5%, transparent);
+    }
+
+    /* ─── reset & base ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      font-size: var(--fs-body);
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+    button { font: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+    p { text-wrap: pretty; }
+    h1, h2, h3, h4 { text-wrap: balance; }
+    ::selection { background: var(--accent-soft); color: var(--accent); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    /* ─── layout ────────────────────────────────────────────────────── */
+    .container { max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+    .section { padding-block: clamp(64px, 10vw, var(--gap-2xl)); }
+    .stack { display: flex; flex-direction: column; }
+    .stack > * + * { margin-top: var(--gap-md); }
+    .row { display: flex; align-items: center; gap: var(--gap-md); }
+    .row-between { display: flex; align-items: center; justify-content: space-between; gap: var(--gap-md); }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap-xl); }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-lg); }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap-lg); }
+    .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: var(--gap-xl); align-items: start; }
+    .grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: var(--gap-xl); align-items: start; }
+    @media (max-width: 920px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr 1fr; }
+      .grid-2-1, .grid-1-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 540px) { .grid-4 { grid-template-columns: 1fr; } }
+
+    /* ─── type ──────────────────────────────────────────────────────── */
+    .h1, h1 { font-family: var(--font-display); font-size: var(--fs-h1); line-height: 1.02; letter-spacing: -0.025em; margin: 0; font-weight: 600; }
+    .h2, h2 { font-family: var(--font-display); font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.02em; margin: 0; font-weight: 600; }
+    .h3, h3 { font-family: var(--font-display); font-size: var(--fs-h3); line-height: 1.25; letter-spacing: -0.01em; margin: 0; font-weight: 600; }
+    .lead { font-size: var(--fs-lead); line-height: 1.6; color: var(--muted); max-width: 60ch; margin: 0; }
+    .eyebrow {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent); margin: 0 0 var(--gap-sm);
+    }
+    .meta { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--muted); }
+    .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+    /* ─── nav ───────────────────────────────────────────────────────── */
+    .topnav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: color-mix(in oklch, var(--bg) 88%, transparent);
+      backdrop-filter: blur(20px) saturate(1.2);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s ease;
+    }
+    .topnav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-block: 16px; gap: var(--gap-md);
+    }
+    .topnav .logo { font-family: var(--font-display); font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+    .topnav .logo span { color: var(--accent); }
+    .topnav nav { display: flex; gap: var(--gap-lg); }
+    .topnav nav a { font-size: 13px; color: var(--muted); letter-spacing: 0.02em; position: relative; }
+    .topnav nav a:hover { color: var(--fg); }
+    .topnav nav a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--accent); transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .topnav nav a:hover::after { transform: scaleX(1); }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; border: 1px solid var(--accent); border-radius: var(--radius);
+      font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: 0.04em;
+      text-transform: uppercase; transition: background 0.2s ease, color 0.2s ease;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+    /* ─── theme toggle ──────────────────────────────────────────────── */
+    .theme-toggle {
+      width: 40px; height: 40px; display: grid; place-items: center;
+      border: 1px solid var(--border); border-radius: 50%;
+      color: var(--muted); transition: all 0.3s ease; flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .theme-toggle svg { width: 18px; height: 18px; }
+
+    /* ─── mobile nav ────────────────────────────────────────────────── */
+    .mobile-menu-btn { display: none; width: 40px; height: 40px; place-items: center; border: 1px solid var(--border); border-radius: var(--radius); color: var(--fg); }
+    .mobile-menu-btn svg { width: 20px; height: 20px; }
+    @media (max-width: 920px) {
+      .topnav nav, .topnav .nav-cta { display: none; }
+      .mobile-menu-btn { display: grid; }
+      .topnav nav.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); padding: var(--gap-md); border-bottom: 1px solid var(--border); gap: var(--gap-md); }
+      .topnav .nav-cta.open { display: inline-flex; }
+    }
+
+    /* ─── hero ──────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; position: relative;
+      overflow: hidden; padding-block: 120px 80px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse at 40% 30%, oklch(25% 0.06 260 / 0.4) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 70%, oklch(20% 0.04 72 / 0.3) 0%, transparent 50%),
+        var(--bg);
+    }
+    .hero-bg-video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: 0.15; z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(180deg, transparent 0%, var(--bg) 100%);
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 12px;
+      margin-bottom: var(--gap-lg);
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 40px; height: 1px; background: var(--accent);
+    }
+    .hero h1 { margin-bottom: var(--gap-md); }
+    .hero .lead { font-size: clamp(18px, 2vw, 24px); max-width: 50ch; margin-bottom: var(--gap-xl); }
+    .hero-cta { display: flex; gap: var(--gap-sm); flex-wrap: wrap; }
+    .hero-scroll {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--muted); font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 40px; background: linear-gradient(180deg, var(--muted) 0%, transparent 100%);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.3; transform: scaleY(0.6); } 50% { opacity: 1; transform: scaleY(1); } }
+
+    /* ─── buttons ───────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px; border-radius: var(--radius);
+      border: 1px solid transparent; font-size: 14px; font-weight: 500;
+      letter-spacing: 0.02em; transition: all 0.25s ease; position: relative;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary {
+      background: var(--accent); color: oklch(10% 0.01 260); border-color: var(--accent);
+    }
+    .btn-primary:hover {
+      background: color-mix(in oklch, var(--accent) 85%, black);
+      transform: translateY(-1px); box-shadow: 0 8px 32px var(--accent-soft);
+    }
+    .btn-secondary {
+      background: transparent; color: var(--fg); border-color: var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--fg); }
+    .btn-ghost { background: transparent; color: var(--muted); border-color: transparent; padding-inline: 0; }
+    .btn-ghost:hover { color: var(--fg); }
+    .btn-arrow::after { content: '→'; transition: transform 0.2s ease; }
+    .btn-arrow:hover::after { transform: translateX(4px); }
+
+    /* ─── section headers ───────────────────────────────────────────── */
+    .section-header { margin-bottom: var(--gap-2xl); }
+    .section-header h2 { margin-bottom: var(--gap-sm); }
+    .section-header .lead { max-width: 48ch; }
+
+    /* ─── showreel ──────────────────────────────────────────────────── */
+    .showreel-player {
+      position: relative; border-radius: var(--radius-lg); overflow: hidden;
+      background: var(--surface); border: 1px solid var(--border);
+      aspect-ratio: 16 / 9; display: grid; place-items: center;
+    }
+    .showreel-player .play-btn {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: var(--accent); color: var(--bg); display: grid; place-items: center;
+      font-size: 32px; border: 2px solid transparent;
+      transition: all 0.3s ease; cursor: pointer;
+    }
+    .showreel-player .play-btn:hover {
+      transform: scale(1.1); box-shadow: 0 0 48px var(--accent-soft);
+    }
+    .showreel-player img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ─── clients ───────────────────────────────────────────────────── */
+    .client-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: var(--gap-lg); align-items: center;
+    }
+    .client-logo {
+      height: 48px; display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-family: var(--font-display); font-size: 18px;
+      font-weight: 600; letter-spacing: -0.01em; opacity: 0.5;
+      transition: opacity 0.3s ease; filter: grayscale(1);
+    }
+    .client-logo:hover { opacity: 0.9; filter: grayscale(0); }
+
+    /* ─── stats ─────────────────────────────────────────────────────── */
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap-lg); }
+    @media (max-width: 920px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .stat-grid { grid-template-columns: 1fr; } }
+    .stat-card {
+      text-align: center; padding: var(--gap-xl) var(--gap-md);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      background: var(--surface); transition: border-color 0.3s ease;
+    }
+    .stat-card:hover { border-color: var(--accent); }
+    .stat-num {
+      font-family: var(--font-display); font-size: clamp(48px, 6vw, 72px);
+      line-height: 0.9; letter-spacing: -0.04em; color: var(--accent);
+      font-weight: 700; margin-bottom: var(--gap-xs);
+    }
+    .stat-label { font-size: 14px; color: var(--muted); }
+
+    /* ─── about ─────────────────────────────────────────────────────── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: var(--gap-2xl); align-items: start; }
+    @media (max-width: 920px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-image {
+      border-radius: var(--radius-lg); overflow: hidden;
+      aspect-ratio: 3 / 4; background: var(--surface); border: 1px solid var(--border);
+      display: grid; place-items: center; color: var(--muted);
+    }
+    .about-image img { width: 100%; height: 100%; object-fit: cover; }
+    .about-content .lead { font-size: var(--fs-body); }
+    .about-content .lead + .lead { margin-top: var(--gap-md); }
+    .about-signature {
+      font-family: var(--font-display); font-size: 20px; font-style: italic;
+      color: var(--accent); margin-top: var(--gap-lg);
+    }
+
+    /* ─── case studies ──────────────────────────────────────────────── */
+    .case-card {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-xl);
+      align-items: center; padding: var(--gap-2xl) 0; border-bottom: 1px solid var(--border);
+    }
+    .case-card:first-child { padding-top: 0; }
+    .case-card:last-child { border-bottom: 0; }
+    @media (max-width: 920px) { .case-card { grid-template-columns: 1fr; } }
+    .case-visual {
+      border-radius: var(--radius-lg); overflow: hidden;
+      aspect-ratio: 16 / 10; background: var(--surface); border: 1px solid var(--border);
+      display: grid; place-items: center; position: relative; cursor: pointer;
+    }
+    .case-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .case-visual .play-overlay {
+      position: absolute; inset: 0; background: oklch(0% 0 0 / 0.4);
+      display: grid; place-items: center; opacity: 0; transition: opacity 0.3s ease;
+    }
+    .case-visual:hover .play-overlay { opacity: 1; }
+    .case-visual .play-overlay svg { width: 48px; height: 48px; color: white; }
+    .case-tag {
+      display: inline-block; padding: 4px 10px; border: 1px solid var(--accent);
+      border-radius: 999px; font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: var(--gap-md);
+    }
+    .case-card h3 { margin-bottom: var(--gap-sm); }
+    .case-card p { color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: var(--gap-md); }
+
+    /* ─── portfolio gallery ─────────────────────────────────────────── */
+    .gallery-filters {
+      display: flex; gap: var(--gap-sm); flex-wrap: wrap; margin-bottom: var(--gap-xl);
+      border-bottom: 1px solid var(--border); padding-bottom: var(--gap-md);
+    }
+    .gallery-filter {
+      padding: 6px 16px; border: 1px solid transparent; border-radius: 999px;
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); transition: all 0.2s ease;
+    }
+    .gallery-filter:hover { color: var(--fg); border-color: var(--border); }
+    .gallery-filter.active { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-md);
+    }
+    @media (max-width: 920px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .gallery-grid { grid-template-columns: 1fr; } }
+    .gallery-item {
+      position: relative; border-radius: var(--radius-lg); overflow: hidden;
+      aspect-ratio: 16 / 10; background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer; transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .gallery-item:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-item-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 50%, oklch(0% 0 0 / 0.8) 100%);
+      padding: var(--gap-md); display: flex; flex-direction: column; justify-content: flex-end;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+    .gallery-item-overlay h4 { font-family: var(--font-display); font-size: 18px; color: white; margin-bottom: 4px; }
+    .gallery-item-overlay p { font-size: 12px; color: oklch(70% 0 0); font-family: var(--font-mono); }
+
+    /* ─── before/after ──────────────────────────────────────────────── */
+    .ba-container {
+      position: relative; overflow: hidden; border-radius: var(--radius-lg);
+      border: 1px solid var(--border); user-select: none; cursor: ew-resize;
+      aspect-ratio: 16 / 9; background: var(--surface);
+    }
+    .ba-before, .ba-after {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+    }
+    .ba-after { clip-path: inset(0 50% 0 0); }
+    .ba-after img, .ba-before img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ba-handle {
+      position: absolute; top: 0; bottom: 0; left: 50%; width: 3px;
+      background: white; transform: translateX(-50%); z-index: 2;
+      box-shadow: 0 0 12px oklch(0% 0 0 / 0.3);
+    }
+    .ba-handle::before {
+      content: '⟷'; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px; height: 32px; background: white; border-radius: 50%;
+      display: grid; place-items: center; font-size: 14px; line-height: 0;
+      color: var(--fg); box-shadow: 0 2px 8px oklch(0% 0 0 / 0.3);
+    }
+    .ba-label {
+      position: absolute; bottom: var(--gap-sm); z-index: 3;
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: white;
+      background: oklch(0% 0 0 / 0.5); padding: 4px 10px; border-radius: 4px;
+    }
+    .ba-label-before { left: var(--gap-sm); }
+    .ba-label-after { right: var(--gap-sm); }
+
+    /* ─── services ──────────────────────────────────────────────────── */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-md); }
+    @media (max-width: 920px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .services-grid { grid-template-columns: 1fr; } }
+    .service-card {
+      padding: var(--gap-xl); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); background: var(--surface);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .service-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .service-icon {
+      width: 48px; height: 48px; display: grid; place-items: center;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      color: var(--accent); margin-bottom: var(--gap-md); font-size: 22px;
+    }
+    .service-card h3 { font-size: 18px; margin-bottom: var(--gap-xs); }
+    .service-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ─── awards ────────────────────────────────────────────────────── */
+    .award-list { display: flex; flex-direction: column; gap: var(--gap-md); }
+    .award-row {
+      display: grid; grid-template-columns: 80px 1fr 120px;
+      gap: var(--gap-lg); padding: var(--gap-md) 0;
+      border-bottom: 1px solid var(--border); align-items: center;
+    }
+    @media (max-width: 540px) { .award-row { grid-template-columns: 1fr; gap: var(--gap-xs); } }
+    .award-year { font-family: var(--font-mono); font-size: 14px; color: var(--accent); }
+    .award-title h4 { font-family: var(--font-body); font-size: 16px; font-weight: 500; }
+    .award-title span { font-size: 13px; color: var(--muted); }
+    .award-badge {
+      text-align: right; font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
+      padding: 4px 10px; border: 1px solid var(--accent); border-radius: 999px;
+      justify-self: end;
+    }
+
+    /* ─── workflow timeline ─────────────────────────────────────────── */
+    .timeline { position: relative; padding-left: 40px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .timeline-item { position: relative; padding-bottom: var(--gap-xl); }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      position: absolute; left: -33px; top: 4px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--surface); border: 2px solid var(--accent);
+    }
+    .timeline-item.active .timeline-dot { background: var(--accent); }
+    .timeline-item h3 { font-family: var(--font-body); font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+    .timeline-item p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 48ch; }
+    .timeline-item .meta { font-size: 12px; margin-bottom: var(--gap-xs); }
+
+    /* ─── testimonials ──────────────────────────────────────────────── */
+    .testimonial-carousel { overflow: hidden; }
+    .testimonial-track {
+      display: flex; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .testimonial-card {
+      min-width: 100%; padding: var(--gap-2xl) var(--gap-xl);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      background: var(--surface); box-sizing: border-box;
+    }
+    .testimonial-quote {
+      font-family: var(--font-display); font-size: clamp(20px, 2.4vw, 28px);
+      line-height: 1.35; font-style: italic; max-width: 36ch;
+      margin-bottom: var(--gap-lg);
+    }
+    .testimonial-author { display: flex; align-items: center; gap: var(--gap-md); }
+    .testimonial-avatar {
+      width: 48px; height: 48px; border-radius: 50%; background: var(--border);
+      display: grid; place-items: center; overflow: hidden;
+    }
+    .testimonial-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .testimonial-name { font-weight: 600; font-size: 15px; }
+    .testimonial-role { font-size: 13px; color: var(--muted); }
+    .testimonial-nav { display: flex; gap: var(--gap-sm); margin-top: var(--gap-lg); justify-content: center; }
+    .testimonial-dot {
+      width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--border);
+      background: transparent; cursor: pointer; transition: all 0.3s ease;
+    }
+    .testimonial-dot.active { background: var(--accent); border-color: var(--accent); }
+
+    /* ─── FAQ ───────────────────────────────────────────────────────── */
+    .faq-list { max-width: 720px; }
+    .faq-item {
+      border-bottom: 1px solid var(--border); padding: var(--gap-md) 0;
+    }
+    .faq-question {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: var(--gap-md); width: 100%; text-align: left;
+      font-size: 16px; font-weight: 500; color: var(--fg); padding: 8px 0;
+      cursor: pointer; transition: color 0.2s ease;
+    }
+    .faq-question:hover { color: var(--accent); }
+    .faq-question svg {
+      width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s ease;
+      color: var(--muted);
+    }
+    .faq-item.open .faq-question svg { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+      font-size: 15px; color: var(--muted); line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; padding-bottom: var(--gap-md); }
+
+    /* ─── contact ───────────────────────────────────────────────────── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-2xl); }
+    @media (max-width: 920px) { .contact-grid { grid-template-columns: 1fr; } }
+    .contact-info h3 { margin-bottom: var(--gap-md); }
+    .contact-info p { font-size: 15px; color: var(--muted); line-height: 1.8; max-width: 40ch; }
+    .contact-detail { margin-top: var(--gap-lg); }
+    .contact-detail dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .contact-detail dd { font-size: 16px; margin: 0 0 var(--gap-md); }
+    .contact-detail dd a { color: var(--accent); }
+    .contact-detail dd a:hover { text-decoration: underline; }
+    .social-links { display: flex; gap: var(--gap-md); margin-top: var(--gap-lg); }
+    .social-link {
+      width: 44px; height: 44px; display: grid; place-items: center;
+      border: 1px solid var(--border); border-radius: 50%;
+      color: var(--muted); transition: all 0.3s ease;
+    }
+    .social-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .social-link svg { width: 20px; height: 20px; }
+
+    .contact-form .field { margin-bottom: var(--gap-md); }
+    .contact-form label { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; padding: 12px 16px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      color: var(--fg); font: inherit; font-size: 15px;
+      transition: border-color 0.2s ease;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      outline: none; border-color: var(--accent);
+    }
+    .contact-form textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+
+    /* ─── footer ────────────────────────────────────────────────────── */
+    .pagefoot {
+      border-top: 1px solid var(--border); padding-block: var(--gap-xl);
+      color: var(--muted); font-size: 13px;
+    }
+    .pagefoot .row-between { flex-wrap: wrap; gap: var(--gap-md); }
+    .pagefoot a:hover { color: var(--fg); }
+
+    /* ─── lightbox ──────────────────────────────────────────────────── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 200;
+      background: oklch(0% 0 0 / 0.92);
+      display: grid; place-items: center; padding: var(--gap-md);
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    .lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox-close {
+      position: absolute; top: var(--gap-md); right: var(--gap-md);
+      width: 48px; height: 48px; display: grid; place-items: center;
+      color: white; font-size: 28px; cursor: pointer; z-index: 2;
+      border: 1px solid oklch(100% 0 0 / 0.2); border-radius: 50%;
+    }
+    .lightbox-close:hover { background: oklch(100% 0 0 / 0.1); }
+    .lightbox-content {
+      position: relative; width: 100%; max-width: 960px;
+      aspect-ratio: 16 / 9; background: oklch(10% 0 0);
+      border-radius: var(--radius-lg); overflow: hidden;
+    }
+    .lightbox-content iframe { width: 100%; height: 100%; border: 0; }
+    .lightbox-content .ph-img {
+      width: 100%; height: 100%; display: grid; place-items: center;
+      font-family: var(--font-mono); color: var(--muted); font-size: 14px;
+    }
+
+    /* ─── search bar ────────────────────────────────────────────────── */
+    .search-bar {
+      position: relative; margin-bottom: var(--gap-lg);
+    }
+    .search-bar input {
+      width: 100%; padding: 14px 16px 14px 48px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      color: var(--fg); font: inherit; font-size: 15px;
+      transition: border-color 0.2s ease;
+    }
+    .search-bar input:focus { outline: none; border-color: var(--accent); }
+    .search-bar svg {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; color: var(--muted);
+    }
+
+    /* ─── resume button flairs ──────────────────────────────────────── */
+    .resume-btn { position: relative; }
+    .resume-btn::before {
+      content: ''; position: absolute; inset: -1px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--accent), oklch(60% 0.08 300));
+      opacity: 0; transition: opacity 0.3s ease; z-index: -1;
+    }
+    .resume-btn:hover::before { opacity: 1; }
+
+    /* ─── scroll reveal animations ──────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.92); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* ─── parallax subtle ───────────────────────────────────────────── */
+    .parallax-bg { will-change: transform; }
+
+    /* ─── grid fallback images ───────────────────────────────────────── */
+    .ph-img {
+      background: linear-gradient(135deg, var(--accent-soft), var(--fg-soft)), var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      aspect-ratio: 16 / 10; display: grid; place-items: center;
+      color: var(--muted); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em;
+    }
+    .ph-img.square { aspect-ratio: 1 / 1; }
+    .ph-img.portrait { aspect-ratio: 3 / 4; }
+    .ph-img.wide { aspect-ratio: 16 / 9; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ Top Nav ═══════════════════════════════════════════════════ -->
+  <header class="topnav" data-od-id="topnav" role="banner">
+    <div class="container topnav-inner">
+      <a href="#" class="logo">Maya<span>.</span>Chen</a>
+      <nav role="navigation" aria-label="Main navigation">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: var(--gap-sm);">
+        <button class="theme-toggle" aria-label="Toggle color theme" onclick="toggleTheme()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path class="sun" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            <path class="moon" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" style="display:none"/>
+          </svg>
+        </button>
+        <button class="mobile-menu-btn" aria-label="Open menu" onclick="toggleMobileNav()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ Hero ══════════════════════════════════════════════════════ -->
+  <section class="hero" data-od-id="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <video class="hero-bg-video" autoplay muted loop playsinline preload="auto"
+      poster="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%229%22%3E%3Crect fill=%22%230a0a0d%22 width=%2216%22 height=%229%22/%3E%3C/svg%3E">
+      <source src="https://cdn.coverr.co/videos/coverr-filmmaker-editing-on-a-laptop-5778/1080p.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="container hero-content">
+      <div class="hero-eyebrow reveal">Cinematic Editor</div>
+      <h1 class="reveal" style="transition-delay: 0.1s">Every Frame<br />Tells a Story</h1>
+      <p class="lead reveal" style="transition-delay: 0.2s">
+        I craft narratives for brands, agencies, and artists who refuse to settle for ordinary.
+        Commercials, music videos, documentaries — precision-cut in Los Angeles.
+      </p>
+      <div class="hero-cta reveal" style="transition-delay: 0.3s">
+        <a href="#work" class="btn btn-primary">View the work</a>
+        <a href="#contact" class="btn btn-secondary">Start a project</a>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══ Showreel ══════════════════════════════════════════════════ -->
+  <section class="section" data-od-id="showreel" id="work">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Featured Work</p>
+        <h2>Showreel 2026</h2>
+        <p class="lead">A curated selection of recent projects spanning commercial, narrative, and experimental work.</p>
+      </div>
+      <div class="showreel-player reveal-scale" style="transition-delay: 0.15s">
+        <div class="ph-img wide" style="--aspect-ratio: 16/9; border: 0; border-radius: var(--radius-lg);">
+          <div style="text-align: center;">
+            <div style="font-family: var(--font-display); font-size: 24px; color: var(--fg); margin-bottom: 8px;">▶ Showreel 2026</div>
+            <div style="font-size: 11px;">2 min · Cinematic · 4K</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="openLightbox('showreel')" aria-label="Play showreel">
+          ▶
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Clients + Stats ═══════════════════════════════════════════ -->
+  <section class="section" data-od-id="clients" style="padding-block: var(--gap-xl);">
+    <div class="container">
+      <p class="eyebrow reveal" style="text-align: center; margin-bottom: var(--gap-lg);">Trusted by</p>
+      <div class="client-grid reveal" style="transition-delay: 0.1s">
+        <span class="client-logo">Narrative</span>
+        <span class="client-logo">Aurora</span>
+        <span class="client-logo">Pulse Media</span>
+        <span class="client-logo">North Star</span>
+        <span class="client-logo">Meridian</span>
+        <span class="client-logo">Cascade</span>
+        <span class="client-logo">Vertex</span>
+        <span class="client-logo">Atlas Co.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-od-id="stats" style="padding-block: 0 0;">
+    <div class="container" style="padding-block: var(--gap-2xl); border-top: 1px solid var(--border);">
+      <div class="stat-grid">
+        <div class="stat-card reveal-scale">
+          <div class="stat-num"><span class="counter" data-target="12">0</span><span class="stat-unit">+</span></div>
+          <p class="stat-label">Years of editorial experience</p>
+        </div>
+        <div class="stat-card reveal-scale" style="transition-delay: 0.1s">
+          <div class="stat-num"><span class="counter" data-target="340">0</span><span class="stat-unit">+</span></div>
+          <p class="stat-label">Projects delivered</p>
+        </div>
+        <div class="stat-card reveal-scale" style="transition-delay: 0.2s">
+          <div class="stat-num"><span class="counter" data-target="28">0</span></div>
+          <p class="stat-label">Industry awards & nominations</p>
+        </div>
+        <div class="stat-card reveal-scale" style="transition-delay: 0.3s">
+          <div class="stat-num"><span class="counter" data-target="64">0</span><span class="stat-unit">+</span></div>
+          <p class="stat-label">Global brand partners</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ About ═════════════════════════════════════════════════════ -->
+  <section class="section" data-od-id="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image reveal-left">
+          <div class="ph-img portrait" style="width: 100%; height: 100%; border-radius: 0; border: 0; aspect-ratio: unset; display: grid; place-items: center;">
+            <div style="text-align: center;">
+              <div style="font-family: var(--font-display); font-size: 48px; line-height: 1; margin-bottom: 8px; color: var(--fg);">MC</div>
+              <div style="font-size: 10px;">Portrait</div>
+            </div>
+          </div>
+        </div>
+        <div class="about-content reveal-right" style="transition-delay: 0.1s">
+          <p class="eyebrow">About</p>
+          <h2 style="margin-bottom: var(--gap-lg);">The Story Behind<br />the Edit</h2>
+          <p class="lead">
+            I'm Maya Chen — a cinematic editor based in Los Angeles with over a decade of experience shaping stories for screen. 
+            My work sits at the intersection of narrative instinct and technical precision, serving brands, agencies, and 
+            independent filmmakers who demand more than a cut.
+          </p>
+          <p class="lead">
+            I've had the privilege of editing campaigns for Fortune 500 companies, music videos for Grammy-nominated 
+            artists, and documentaries that screened at Sundance and TIFF. Every project, regardless of scale, 
+            starts the same way: listening to what the story needs.
+          </p>
+          <p class="lead">
+            My approach is hands-on and collaborative. I work directly with directors, creative directors, and 
+            producers from first assembly through color grade — ensuring the editorial vision survives every stage 
+            of post-production.
+          </p>
+          <div class="about-signature">— Maya Chen</div>
+          <div style="margin-top: var(--gap-lg); display: flex; gap: var(--gap-sm); flex-wrap: wrap;">
+            <a href="#contact" class="btn btn-primary btn-arrow">Work with me</a>
+            <a href="#" class="btn btn-secondary resume-btn" onclick="alert('Resume download would start here.')">Download résumé</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Case Studies ══════════════════════════════════════════════ -->
+  <section class="section" data-od-id="case-studies" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Case Studies</p>
+        <h2>Recent Work</h2>
+        <p class="lead">Three recent projects that showcase the range of narrative and commercial work.</p>
+      </div>
+
+      <div class="case-card reveal">
+        <div>
+          <span class="case-tag">Commercial</span>
+          <h3>Meridian — "Horizons"</h3>
+          <p>A 90-second brand film for a luxury travel platform. The brief: evoke wonder without a single word of 
+          dialogue. We built the edit around ambient sound design and wides, letting the landscapes speak.</p>
+          <a href="#" class="btn btn-ghost btn-arrow" onclick="openLightbox('case1')">Watch case study</a>
+        </div>
+        <div class="case-visual" onclick="openLightbox('case1')">
+          <div class="ph-img wide" style="border-radius: 0; border: 0; margin: 0; width: 100%; height: 100%;">
+            <div style="text-align: center; color: var(--fg);">
+              <div style="font-family: var(--font-display); font-size: 20px;">Meridian</div>
+              <div style="font-size:10px; color:var(--muted);">Horizons · Brand Film</div>
+            </div>
+          </div>
+          <div class="play-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card reveal">
+        <div class="case-visual" onclick="openLightbox('case2')" style="order: 2;">
+          <div class="ph-img wide" style="border-radius: 0; border: 0; margin: 0; width: 100%; height: 100%; background: linear-gradient(135deg, oklch(30% 0.08 280), oklch(20% 0.06 300));">
+            <div style="text-align: center; color: white;">
+              <div style="font-family: var(--font-display); font-size: 20px;">Aurora</div>
+              <div style="font-size:10px; opacity:0.7;">Music Video</div>
+            </div>
+          </div>
+          <div class="play-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+        <div style="order: 1;">
+          <span class="case-tag">Music Video</span>
+          <h3>Aurora — "Tides"</h3>
+          <p>An experimental music video for indie artist Aurora. The director wanted a single-take feel with 
+          hidden editorial cuts. We wove 32 takes into a seamless three-minute journey through five locations.</p>
+          <a href="#" class="btn btn-ghost btn-arrow" onclick="openLightbox('case2')">Watch case study</a>
+        </div>
+      </div>
+
+      <div class="case-card reveal">
+        <div>
+          <span class="case-tag">Documentary</span>
+          <h3>"The Last Mile" — Sundance 2025</h3>
+          <p>A feature documentary following three postal workers in rural Montana. Premiered at Sundance 2025. 
+          The editorial challenge was balancing intimacy with the sweeping scale of the American landscape.</p>
+          <a href="#" class="btn btn-ghost btn-arrow" onclick="openLightbox('case3')">Watch case study</a>
+        </div>
+        <div class="case-visual" onclick="openLightbox('case3')">
+          <div class="ph-img wide" style="border-radius: 0; border: 0; margin: 0; width: 100%; height: 100%; background: linear-gradient(135deg, oklch(35% 0.06 60), oklch(20% 0.04 70));">
+            <div style="text-align: center; color: white;">
+              <div style="font-family: var(--font-display); font-size: 20px;">The Last Mile</div>
+              <div style="font-size:10px; opacity:0.7;">Sundance 2025</div>
+            </div>
+          </div>
+          <div class="play-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Portfolio Gallery ═════════════════════════════════════════ -->
+  <section class="section" data-od-id="portfolio" id="portfolio">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Portfolio</p>
+        <h2>Selected Projects</h2>
+        <p class="lead">Browse the full archive. Hover to preview, click to view details.</p>
+      </div>
+
+      <div class="search-bar reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="portfolioSearch" placeholder="Search projects..." oninput="filterPortfolio()" />
+      </div>
+
+      <div class="gallery-filters reveal" role="tablist" aria-label="Portfolio categories">
+        <button class="gallery-filter active" data-filter="all" onclick="filterGallery('all', this)" role="tab">All</button>
+        <button class="gallery-filter" data-filter="commercial" onclick="filterGallery('commercial', this)" role="tab">Commercial</button>
+        <button class="gallery-filter" data-filter="music-video" onclick="filterGallery('music-video', this)" role="tab">Music Video</button>
+        <button class="gallery-filter" data-filter="documentary" onclick="filterGallery('documentary', this)" role="tab">Documentary</button>
+        <button class="gallery-filter" data-filter="social" onclick="filterGallery('social', this)" role="tab">Social</button>
+      </div>
+
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="gallery-item reveal-scale" data-category="commercial" onclick="openLightbox('project1')">
+          <div class="ph-img wide" style="border-radius: 0; border: 0; margin: 0; width: 100%; height: 100%; background: linear-gradient(135deg, oklch(28% 0.06 250), oklch(18% 0.04 260));">
+            <div style="text-align: center; color: white;"><div style="font-size:14px;">Narrative</div><div style="font-size:10px; opacity:0.6;">Brand Film</div></div>
+          </div>
+          <div class="gallery-item-overlay">
+            <h4>Narrative — "Foundations"</h4>
+            <p>Commercial · 60s</p>
+          </div>
+        </div>
+        <div class="gallery-item reveal-scale" data-category="music-video" style="transition-delay: 0.05s" onclick="openLightbox('project2')">
+          <div class="ph-img wide" style="border-radius: 0; border: 0; margin: 0; width: 100%; height: 100%; background: linear-gradient(135deg, oklch(30% 0.1 280), oklch(20% 0.08 300));">
+            <div style="text-align: center; color: white;"><div style="font-size:14px;">Juno</div><div style="font-size:10px; opacity:0.6;">Music Video</div></div>
+          </div>
+          <div class="gallery-item-overlay">
+            <h4>Juno — "Neon"</h4>
+            <p>Music Video · 3:24</p>
+          </div>
+        </div>
+        <div class="gallery-item reveal-scale" data-category="documentary" style="transition-delay: 0.1s" onclick="openLightbox('project3')">
+          <div class="ph-img wide" style="border-radius: 0; border: 0; margin: 0; width: 100%; height: 100%; background: linear-gradient(135deg, oklch(32% 0.05 60), oklch(22% 0.04 70));">
+            <div style="text-align: center; color: white;"><div style="font-size:14px;">Borderlands</div><div style="font-size:10px; opacity:0.6;">Doc Short</div></div>
+          </div>
+          <div class="gallery-item-overlay">
+            <h4>Borderlands — Short Doc</h4>
+            <p>Documentary · 22 min</p>
+          </div>
+        </div>
+        <div class="gallery-item reveal-scale" data-category="commercial" onclick="openLightbox('project4')">
+          <div class="ph-img wide" style="border-radius: 0; border: 0; margin: 0; width: 100%; height: 100%; background: linear-gradient(135deg, oklch(26% 0.06 200), oklch(16% 0.04 210));">
+            <div style="text-align: center; color: white;"><div style="font-size:14px;">Cascade</div><div style="font-size:10px; opacity:0.6;">Product Launch</div></div>
+          </div>
+          <div class="gallery-item-overlay">
+            <h4>Cascade — Product Launch</h4>
+            <p>Commercial · 90s</p>
+          </div>
+        </div>
+        <div class="gallery-item reveal-scale" data-category="music-video" style="transition-delay: 0.05s" onclick="openLightbox('project5')">
+          <div class="ph-img wide" style="border-radius: 0; border: 0; margin: 0; width: 100%; height: 100%; background: linear-gradient(135deg, oklch(28% 0.08 340), oklch(18% 0.06 350));">
+            <div style="text-align: center; color: white;"><div style="font-size:14px;">VIZA</div><div style="font-size:10px; opacity:0.6;">Live Session</div></div>
+          </div>
+          <div class="gallery-item-overlay">
+            <h4>VIZA — Live at the Troubadour</h4>
+            <p>Music Video · 8:12</p>
+          </div>
+        </div>
+        <div class="gallery-item reveal-scale" data-category="social" style="transition-delay: 0.1s" onclick="openLightbox('project6')">
+          <div class="ph-img wide" style="border-radius: 0; border: 0; margin: 0; width: 100%; height: 100%; background: linear-gradient(135deg, oklch(24% 0.06 150), oklch(14% 0.04 160));">
+            <div style="text-align: center; color: white;"><div style="font-size:14px;">Vertex</div><div style="font-size:10px; opacity:0.6;">Campaign</div></div>
+          </div>
+          <div class="gallery-item-overlay">
+            <h4>Vertex — Social Campaign</h4>
+            <p>Social · 15s · 3 variants</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Before/After comparison ═══════════════════════════════════ -->
+  <section class="section" data-od-id="ba-demo" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal" style="text-align: center;">
+        <p class="eyebrow">Unedited → Final</p>
+        <h2>The Difference Experience Makes</h2>
+        <p class="lead" style="margin-inline: auto;">Drag the slider to compare unedited footage with the final graded cut. Every frame passes through color, rhythm, and pace.</p>
+      </div>
+      <div class="ba-container reveal-scale" id="baSlider" style="max-width: 800px; margin-inline: auto;">
+        <div class="ba-before">
+          <div class="ph-img wide" style="border: 0; border-radius: 0; margin: 0; width: 100%; height: 100%; background: oklch(20% 0.02 260);">
+            <div style="text-align: center;">
+              <div style="font-family: var(--font-display); color: var(--muted); font-size: 18px;">Raw Footage</div>
+              <div style="font-size:10px; color: var(--muted);">LOG · Uncorrected</div>
+            </div>
+          </div>
+        </div>
+        <div class="ba-after" id="baAfter">
+          <div class="ph-img wide" style="border: 0; border-radius: 0; margin: 0; width: 100%; height: 100%; background: linear-gradient(135deg, oklch(35% 0.08 250), oklch(25% 0.06 260));">
+            <div style="text-align: center;">
+              <div style="font-family: var(--font-display); color: white; font-size: 18px;">Graded Cut</div>
+              <div style="font-size:10px; opacity:0.6;">Final Color</div>
+            </div>
+          </div>
+        </div>
+        <div class="ba-handle" id="baHandle"></div>
+        <span class="ba-label ba-label-before">Raw</span>
+        <span class="ba-label ba-label-after">Final</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Services ══════════════════════════════════════════════════ -->
+  <section class="section" data-od-id="services" id="services">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Services</p>
+        <h2>What I Deliver</h2>
+        <p class="lead">End-to-end post-production for projects that demand a premium finish.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal-scale">
+          <div class="service-icon">✂</div>
+          <h3>Creative Editing</h3>
+          <p>Narrative assembly, pacing, and performance selection. From first cut to fine cut — every frame intentional.</p>
+        </div>
+        <div class="service-card reveal-scale" style="transition-delay: 0.05s">
+          <div class="service-icon">◑</div>
+          <h3>Color Grading</h3>
+          <p>DaVinci Resolve grading with ACES workflow. LUT creation, look development, and shot-to-shot consistency.</p>
+        </div>
+        <div class="service-card reveal-scale" style="transition-delay: 0.1s">
+          <div class="service-icon">♫</div>
+          <h3>Sound Design</h3>
+          <p>Dialogue editing, Foley, ambient soundscapes, and final mix. 5.1 and stereo delivery.</p>
+        </div>
+        <div class="service-card reveal-scale" style="transition-delay: 0.15s">
+          <div class="service-icon">▤</div>
+          <h3>Motion Graphics</h3>
+          <p>Title sequences, lower thirds, kinetic typography, and VFX compositing in After Effects.</p>
+        </div>
+        <div class="service-card reveal-scale" style="transition-delay: 0.2s">
+          <div class="service-icon">◉</div>
+          <h3>Online & Finishing</h3>
+          <p>Conform, dust busting, QC, and mastering for broadcast, cinema, and digital delivery specs.</p>
+        </div>
+        <div class="service-card reveal-scale" style="transition-delay: 0.25s">
+          <div class="service-icon">◈</div>
+          <h3>Creative Consulting</h3>
+          <p>Pre-production editorial consulting, workflow design, and post-supervision for production companies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Awards ════════════════════════════════════════════════════ -->
+  <section class="section" data-od-id="awards" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Recognition</p>
+        <h2>Awards & Nominations</h2>
+        <p class="lead">A selection of honors from the past six years of editorial work.</p>
+      </div>
+      <div class="award-list">
+        <div class="award-row reveal" style="transition-delay: 0s;">
+          <span class="award-year">2026</span>
+          <div class="award-title">
+            <h4>Best Editing — Commercial</h4>
+            <span>AICP Awards · "Meridian: Horizons"</span>
+          </div>
+          <span class="award-badge">Winner</span>
+        </div>
+        <div class="award-row reveal" style="transition-delay: 0.05s;">
+          <span class="award-year">2025</span>
+          <div class="award-title">
+            <h4>Best Documentary Editing</h4>
+            <span>Sundance Film Festival · "The Last Mile"</span>
+          </div>
+          <span class="award-badge">Nominee</span>
+        </div>
+        <div class="award-row reveal" style="transition-delay: 0.1s;">
+          <span class="award-year">2024</span>
+          <div class="award-title">
+            <h4>Best Music Video Editing</h4>
+            <span>UK Music Video Awards · "Aurora: Tides"</span>
+          </div>
+          <span class="award-badge">Winner</span>
+        </div>
+        <div class="award-row reveal" style="transition-delay: 0.15s;">
+          <span class="award-year">2023</span>
+          <div class="award-title">
+            <h4>Excellence in Post-Production</h4>
+            <span>Clio Awards · "Narrative: Foundations"</span>
+          </div>
+          <span class="award-badge">Silver</span>
+        </div>
+        <div class="award-row reveal" style="transition-delay: 0.2s;">
+          <span class="award-year">2021</span>
+          <div class="award-title">
+            <h4>Best Short Film Editing</h4>
+            <span>Palm Springs ShortFest · "Embers"</span>
+          </div>
+          <span class="award-badge">Winner</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Workflow Timeline ═════════════════════════════════════════ -->
+  <section class="section" data-od-id="workflow">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Process</p>
+        <h2>How We Work Together</h2>
+        <p class="lead">A structured but flexible editorial workflow built for creative collaboration at every stage.</p>
+      </div>
+      <div class="timeline" style="max-width: 600px;">
+        <div class="timeline-item active reveal">
+          <div class="timeline-dot"></div>
+          <p class="meta">Week 1</p>
+          <h3>Discovery & Brief</h3>
+          <p>We talk through the project goals, creative references, deadlines, and deliverables. I learn your story.</p>
+        </div>
+        <div class="timeline-item reveal" style="transition-delay: 0.08s;">
+          <div class="timeline-dot"></div>
+          <p class="meta">Week 1–2</p>
+          <h3>Assembly & Selects</h3>
+          <p>I review all footage, log selects, and build a first assembly that captures the narrative spine.</p>
+        </div>
+        <div class="timeline-item reveal" style="transition-delay: 0.16s;">
+          <div class="timeline-dot"></div>
+          <p class="meta">Week 2–3</p>
+          <h3>Fine Cut & Revisions</h3>
+          <p>Collaborative review cycles. We refine pacing, trim fat, and strengthen every story beat together.</p>
+        </div>
+        <div class="timeline-item reveal" style="transition-delay: 0.24s;">
+          <div class="timeline-dot"></div>
+          <p class="meta">Week 3–4</p>
+          <h3>Grade, Sound & Delivery</h3>
+          <p>Color grading, sound design, final mix, and mastering. Delivered in any format you need.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Testimonials ══════════════════════════════════════════════ -->
+  <section class="section" data-od-id="testimonials" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal" style="text-align: center;">
+        <p class="eyebrow">Testimonials</p>
+        <h2>What Clients Say</h2>
+        <p class="lead" style="margin-inline: auto;">Working with directors, agencies, and brands that trust the edit.</p>
+      </div>
+      <div class="testimonial-carousel reveal-scale" style="max-width: 700px; margin-inline: auto;">
+        <div class="testimonial-track" id="testimonialTrack">
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"Maya doesn't just cut footage — she finds the story hiding in it. Our brand film went from good to unforgettable in her edit bay."</div>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar"><div style="font-size: 18px; color: var(--muted);">JD</div></div>
+              <div>
+                <div class="testimonial-name">James Doran</div>
+                <div class="testimonial-role">Creative Director, Meridian</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"Working with Maya on 'Tides' was a masterclass in collaboration. She understood the visual language from the first conversation."</div>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar"><div style="font-size: 18px; color: var(--muted);">AK</div></div>
+              <div>
+                <div class="testimonial-name">Aurora Kim</div>
+                <div class="testimonial-role">Artist · Songwriter</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"The Last Mile wouldn't be the film it is without Maya's editorial instincts. She shaped 200+ hours of footage into a tight, emotional 92-minute cut."</div>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar"><div style="font-size: 18px; color: var(--muted);">SR</div></div>
+              <div>
+                <div class="testimonial-name">Sarah Reeves</div>
+                <div class="testimonial-role">Director · "The Last Mile"</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-nav" id="testimonialNav">
+          <button class="testimonial-dot active" data-index="0" aria-label="Testimonial 1"></button>
+          <button class="testimonial-dot" data-index="1" aria-label="Testimonial 2"></button>
+          <button class="testimonial-dot" data-index="2" aria-label="Testimonial 3"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══════════════════════════════════════════════════════ -->
+  <section class="section" data-od-id="faq">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">FAQ</p>
+        <h2>Common Questions</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            What NLE do you edit on?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq-answer">I work primarily in Avid Media Composer for long-form and Premiere Pro for commercial projects. For color, I use DaVinci Resolve Studio with an ACES workflow. I'm happy to adapt to your pipeline.</div>
+        </div>
+        <div class="faq-item reveal" style="transition-delay: 0.05s;">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            How do you handle revisions?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq-answer">I include three revision rounds in every project. I use Frame.io for collaborative review — you leave time-stamped feedback, I turn it around within 24–48 hours depending on scope.</div>
+        </div>
+        <div class="faq-item reveal" style="transition-delay: 0.1s;">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            What's your typical turnaround time?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq-answer">A :30 commercial: 5–7 business days for first cut. A 3-minute music video: 10–14 days. Feature documentaries: 8–12 weeks. Rush delivery is available at a premium — reach out to discuss.</div>
+        </div>
+        <div class="faq-item reveal" style="transition-delay: 0.15s;">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            Do you work remotely or on-site?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq-answer">I'm based in Los Angeles and prefer working remotely from my studio. For larger productions, I'm available for on-site sessions in LA and NYC. I can also supervise remote editorial teams.</div>
+        </div>
+        <div class="faq-item reveal" style="transition-delay: 0.2s;">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            What formats do you deliver in?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq-answer">Anything from ProRes 4444 and DNxHR for broadcast to H.264/H.265 for digital. I also deliver DCPs for cinema, broadcast-spec masters, and social-platform optimized exports. All with proper LUTs baked in.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Contact ═══════════════════════════════════════════════════ -->
+  <section class="section" data-od-id="contact" id="contact" style="background: var(--surface); border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Get in Touch</p>
+        <h2>Let's Make Something<br />Memorable</h2>
+        <p class="lead">Available for select projects in 2026. Fill out the form or reach out directly — I respond within 24 hours.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <dl class="contact-detail">
+            <dt>Email</dt>
+            <dd><a href="mailto:maya@mayachen.edit">maya@mayachen.edit</a></dd>
+            <dt>Location</dt>
+            <dd>Los Angeles, CA</dd>
+            <dt>Availability</dt>
+            <dd>Select projects · Q3–Q4 2026</dd>
+          </dl>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Vimeo">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 7.531c0 1.013-1.346 3.078-2.532 4.355C16.804 15.105 15 19 12 19c-1.61 0-2.415-1.565-3.303-3.254-.636-1.29-1.272-2.58-1.908-3.87C6 10.4 5.6 9.2 4.8 9c-.4 0-.9.2-1.5.6L2 8.1c.8-.7 2.1-1.9 3.6-3.1 1.6-1.2 2.8-1.9 3.8-1.9 2 0 2.5 1.6 3.5 3.7.8 1.8 1.3 3 1.9 3s.9-.4 1.7-1.3c.8-.9 1.2-1.6 1.7-2.2.5-.6 1.1-.9 1.7-.9.7 0 1.3.3 1.9 1.1l.2.7z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V4a2 2 0 00-2-2zM8.5 19H6V10h2.5v9zM7.25 8.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zM19 19h-2.5v-4.5c0-1.08-.02-2.47-1.5-2.47s-1.73 1.18-1.73 2.4V19H11V10h2.4v1.3h.04a2.7 2.7 0 012.4-1.3c2.56 0 3.04 1.68 3.04 3.88V19z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter / X">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+        <form class="contact-form reveal-right" onsubmit="handleContact(event)">
+          <div class="field">
+            <label for="contactName">Name</label>
+            <input type="text" id="contactName" required placeholder="Your name" />
+          </div>
+          <div class="field">
+            <label for="contactEmail">Email</label>
+            <input type="email" id="contactEmail" required placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="contactType">Project type</label>
+            <input type="text" id="contactType" placeholder="Commercial / Music Video / Documentary / Other" />
+          </div>
+          <div class="field">
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" required placeholder="Tell me about your project..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ════════════════════════════════════════════════════ -->
+  <footer class="pagefoot" data-od-id="footer" role="contentinfo">
+    <div class="container row-between">
+      <span>© 2026 Maya Chen · All rights reserved</span>
+      <span class="meta" style="display: flex; gap: var(--gap-lg);">
+        <a href="#">maya@mayachen.edit</a>
+        <a href="#">Instagram</a>
+        <a href="#">Vimeo</a>
+      </span>
+    </div>
+  </footer>
+
+  <!-- ═══ Lightbox ══════════════════════════════════════════════════ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Video player">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close video">✕</button>
+    <div class="lightbox-content" id="lightboxContent">
+      <div class="ph-img" style="border-radius: var(--radius-lg); border: none;">
+        <div style="text-align: center;">
+          <div style="font-family: var(--font-display); font-size: 20px; margin-bottom: 8px;">▶ Video Player</div>
+          <div style="font-size: 11px; color: var(--muted);">Embed placeholder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ─── Theme Toggle ─────────────────────────────────────────────── */
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+    /* ─── Mobile Nav ───────────────────────────────────────────────── */
+    function toggleMobileNav() {
+      const nav = document.querySelector('.topnav nav');
+      const cta = document.querySelector('.topnav .nav-cta');
+      nav.classList.toggle('open');
+      if (cta) cta.classList.toggle('open');
+    }
+
+    /* ─── Scroll Reveal ────────────────────────────────────────────── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    /* ─── Counter Animation ────────────────────────────────────────── */
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-target'));
+          animateCounter(el, target);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+    function animateCounter(el, target) {
+      let current = 0;
+      const increment = Math.ceil(target / 40);
+      const step = () => {
+        current += increment;
+        if (current > target) current = target;
+        el.textContent = current;
+        if (current < target) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    /* ─── Gallery Filter ───────────────────────────────────────────── */
+    function filterGallery(category, btn) {
+      document.querySelectorAll('.gallery-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach(item => {
+        const cat = item.getAttribute('data-category');
+        if (category === 'all' || cat === category) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    /* ─── Portfolio Search ─────────────────────────────────────────── */
+    function filterPortfolio() {
+      const query = document.getElementById('portfolioSearch').value.toLowerCase();
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    }
+
+    /* ─── Before/After Slider ──────────────────────────────────────── */
+    const baContainer = document.getElementById('baSlider');
+    const baAfter = document.getElementById('baAfter');
+    const baHandle = document.getElementById('baHandle');
+
+    if (baContainer) {
+      let isDragging = false;
+
+      function updateSlider(x) {
+        const rect = baContainer.getBoundingClientRect();
+        let pos = (x - rect.left) / rect.width;
+        pos = Math.max(0.05, Math.min(0.95, pos));
+        baAfter.style.clipPath = `inset(0 ${(1 - pos) * 100}% 0 0)`;
+        baHandle.style.left = `${pos * 100}%`;
+      }
+
+      baContainer.addEventListener('mousedown', () => isDragging = true);
+      document.addEventListener('mouseup', () => isDragging = false);
+      document.addEventListener('mousemove', (e) => { if (isDragging) updateSlider(e.clientX); });
+      baContainer.addEventListener('touchstart', () => isDragging = true);
+      document.addEventListener('touchend', () => isDragging = false);
+      document.addEventListener('touchmove', (e) => {
+        if (isDragging && e.touches[0]) updateSlider(e.touches[0].clientX);
+      });
+    }
+
+    /* ─── Testimonial Carousel ─────────────────────────────────────── */
+    const track = document.getElementById('testimonialTrack');
+    const dots = document.querySelectorAll('#testimonialNav .testimonial-dot');
+    let currentSlide = 0;
+
+    function goToSlide(index) {
+      if (!track) return;
+      currentSlide = index;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    }
+
+    if (dots.length) {
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => goToSlide(parseInt(dot.getAttribute('data-index'))));
+      });
+      setInterval(() => {
+        goToSlide((currentSlide + 1) % dots.length);
+      }, 5000);
+    }
+
+    /* ─── FAQ ──────────────────────────────────────────────────────── */
+    function toggleFAQ(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+
+    /* ─── Lightbox ─────────────────────────────────────────────────── */
+    let lightboxOpen = false;
+
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      const content = document.getElementById('lightboxContent');
+      lb.classList.add('open');
+      lightboxOpen = true;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      lb.classList.remove('open');
+      lightboxOpen = false;
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxOpen) closeLightbox();
+    });
+
+    /* ─── Contact Form ─────────────────────────────────────────────── */
+    function handleContact(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      const original = btn.textContent;
+      btn.textContent = '✓ Message sent';
+      btn.style.background = 'var(--accent)';
+      setTimeout(() => {
+        btn.textContent = original;
+        e.target.reset();
+      }, 2500);
+    }
+
+    /* ─── Nav scroll state ─────────────────────────────────────────── */
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('.topnav');
+      const current = window.scrollY;
+      if (current > 80) {
+        nav.style.background = 'color-mix(in oklch, var(--bg) 96%, transparent)';
+      } else {
+        nav.style.background = 'color-mix(in oklch, var(--bg) 88%, transparent)';
+      }
+      lastScroll = current;
+    });
+
+    /* ─── Smooth scroll for anchor links ──────────────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const navH = 72;
+          const top = target.getBoundingClientRect().top + window.pageYOffset - navH;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    console.log('Maya Chen — Cinematic Editor Portfolio');
+    console.log('Designed with care in Los Angeles.');
+  </script>
+</body>
+</html>
